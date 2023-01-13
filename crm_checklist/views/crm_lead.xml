@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="crm_lead_view_form_inherited" model="ir.ui.view">
+        <field name="name">crm.lead.form.checklist</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_lead_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header/button[@name='action_set_won_rainbowman']" position="after">
+                <button name="action_send_for_approval" string="Send for Approval"
+                        type="object" class="oe_highlight"
+                        attrs="{'invisible': ['|', ('tender_cost_updated', '=', False), ('waiting_approval_checklist', '=', True)]}"/>
+                <button name="action_approve_checklist" string="Approve"
+                        type="object" class="oe_highlight"
+                        attrs="{'invisible': ['|', ('waiting_approval_checklist', '=', False), ('checklist_approved', '=', True)]}"
+                        groups="crm_checklist.group_crm_approval_user"/>
+            </xpath>
+            <field name="tag_ids" position="after">
+                <field name="waiting_approval_checklist" invisible="1"/>
+                <field name="checklist_approved" invisible="1"/>
+            </field>
+            <xpath expr="//sheet/div[@name='button_box']" position="after">
+                <widget name="web_ribbon" title="Waiting for Approval"
+                        attrs="{'invisible': [ '|', ('waiting_approval_checklist', '=', False), ('checklist_approved', '=', True)]}"/>
+            </xpath>
+            <notebook position="inside">
+                <page string="Check List">
+                    <group>
+                        <field name='all_documents_updated' invisible="1"/>
+                        <field name="tender_cost_updated" invisible="1"/>
+                        <field name="check_stage" invisible="1"/>
+                    </group>
+                    <group>
+                        <field name="check_list_document_ids"
+                               context="{'default_lead_id': id}" nolabel="1"
+                               attrs="{'readonly': [('check_stage', '=', True)]}">
+                            <tree decoration-success="document_id != False" decoration-danger="document_id == False"
+                                  editable="bottom">
+                                <field name="check_list_id"/>
+                                <field name="document_id"/>
+                                <field name="user_id" readonly="False"/>
+                            </tree>
+
+                            <form>
+                                <sheet>
+                                    <group>
+                                        <group>
+                                            <field name="check_list_id"/>
+                                            <field name="document_id"/>
+                                        </group>
+                                        <group>
+                                            <field name="lead_id"/>
+                                            <field name="user_id" readonly="False"/>
+                                        </group>
+
+                                    </group>
+                                </sheet>
+                            </form>
+
+                            <kanban class="o_kanban_mobile">
+                                <field name="check_list_id"/>
+                                <field name="document_id"/>
+                                <field name="user_id" readonly="False"/>
+                            </kanban>
+                        </field>
+                    </group>
+                </page>
+            </notebook>
+        </field>
+    </record>
+    <!--    <record id="crm_lead_view_kanban_opportunity" model="ir.ui.view">-->
+    <!--        <field name="name">crm.lead.kanban.opportunity.checklist</field>-->
+    <!--        <field name="model">crm.lead</field>-->
+    <!--        <field name="inherit_id" ref="crm.crm_case_kanban_view_leads"/>-->
+    <!--        <field name="arch" type="xml">-->
+    <!--            <field name="user_id" position="after">-->
+    <!--                <field name="checklist_progress"/>-->
+    <!--                <field name="check_list_len"/>-->
+    <!--            </field>-->
+    <!--            <xpath expr="//div[hasclass('o_kanban_record_bottom')]" position="before">-->
+    <!--                <div title="checklist progress" t-if="record.check_list_len.raw_value">-->
+    <!--                    <field name="checklist_progress" widget="progressbar"/>-->
+    <!--                </div>-->
+    <!--            </xpath>-->
+    <!--        </field>-->
+    <!--    </record>-->
+    <!--    <record id="crm_lead_view_lead_kanban" model="ir.ui.view">-->
+    <!--        <field name="name">crm.lead.kanban.lead.checklist</field>-->
+    <!--        <field name="model">crm.lead</field>-->
+    <!--        <field name="inherit_id" ref="crm.view_crm_lead_kanban"/>-->
+    <!--        <field name="arch" type="xml">-->
+    <!--            <field name="user_id" position="after">-->
+    <!--                <field name="checklist_progress"/>-->
+    <!--                <field name="check_list_len"/>-->
+    <!--            </field>-->
+    <!--            <xpath expr="//div[hasclass('o_kanban_record_bottom')]" position="before">-->
+    <!--                <div title="checklist progress" t-if="record.check_list_len.raw_value">-->
+    <!--                    <field name="checklist_progress" widget="progressbar"/>-->
+    <!--                </div>-->
+    <!--            </xpath>-->
+    <!--        </field>-->
+    <!--    </record>-->
+
+    <record id="crm_res_config_settings_view_form" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="crm.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@data-key='crm']/h2[1]" position="inside">
+                <div class="row mt16 o_settings_container">
+                    <div class="col-12 col-lg-6 o_setting_box">
+                        <div class="o_setting_left_pane">
+
+                        </div>
+                        <div class="o_setting_right_pane">
+                            <field name="checklist_stage_id"/>
+                            <div class="text-muted">
+                                Checklist Checking Stage
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

@@ -1,0 +1,164 @@
+<odoo>
+    <data>
+        <record id="crm.crm_menu_root" model="ir.ui.menu">
+            <field name="name">Tender</field>
+            <field name="display_name">Tender</field>
+        </record>
+
+        <record id="crm_res_config_settings_view_form" model="ir.ui.view">
+            <field name="name">res.config.settings.view.form</field>
+            <field name="model">res.config.settings</field>
+            <field name="inherit_id" ref="crm.res_config_settings_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@data-key='crm']" position="attributes">
+                    <attribute name="string">Tender</attribute>
+                </xpath>
+                <xpath expr="//div[@data-key='crm']/h2[1]" position="replace">
+                    <h2>Tender</h2>
+                </xpath>
+
+                <xpath expr="//div[@data-key='crm']/h2[1]" position="inside">
+                    <div class="row mt16 o_settings_container">
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_left_pane">
+
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <field name="tender_import_stage_id"/>
+                                <div class="text-muted">
+                                    Tender Lines Imported Stage
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="crm_lead_tender_product_form_view" model="ir.ui.view">
+            <field name="name">crm.lead.tender.product.form.view</field>
+            <field name="model">crm.lead</field>
+            <field name="inherit_id" ref="crm.crm_lead_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//notebook/page[@name='internal_notes']" position="before">
+                    <page string="Tender Products" name="tender_products">
+                        <group>
+                            <field name="tender_import_stage" invisible="1"/>
+                            <button name="%(action_tender_line_excel_import)d" string="Import Lines"
+                                    class="oe_highlight" type="action"
+                                    context="{'default_crm_lead_id':active_id}"/>
+                        </group>
+                        <field name="tender_line_ids" widget="one2many"
+                               context="{'default_company_id': company_id, 'default_crm_lead_id': id}">
+<!--                            attrs="{'readonly': [('tender_import_stage', '=', False)]}">-->
+                            <tree string="Tender Products" editable="bottom" decoration-danger="cost_updated == False">
+                                <field name="company_id" invisible="1"/>
+                                <field name="tender_boq_id"/>
+                                <field name="cost_updated" invisible="1" force_save="1"/>
+                                <field name="tender_product_qty" invisible="1" force_save="1"/>
+                                <field name="tender_total_cost" />
+                                <field name="product_uom_category_id" invisible="1"/>
+                                <field name="product_qty"/>
+                                <field name="product_uom_id" options="{'no_open':True,'no_create':True}"
+                                       groups="uom.group_uom"/>
+                                <field name="estimated_rate"/>
+                                <field name="currency_id" invisible="1"/>
+                                <field name="estimated_total"/>
+                                <field name="estimated_total_words"/>
+                                <field name="total_amount" force_save="1"/>
+                                <field name="total_amount_words" force_save="1"/>
+                                <field name="user_id" invisible="1"/>
+                            </tree>
+
+                            <!-- Form view to cover mobile use -->
+                            <form>
+                                <sheet>
+                                    <group>
+                                        <field name="company_id" invisible="1"/>
+                                        <field name="tender_boq_id"/>
+                                        <field name="product_qty"/>
+                                        <field name="product_uom_id" options="{'no_open':True,'no_create':True}"
+                                               groups="uom.group_uom"/>
+                                        <field name="estimated_rate"/>
+                                        <field name="cost_updated" invisible="1" force_save="1"/>
+                                        <field name="tender_product_qty" invisible="1" force_save="1"/>
+                                        <field name="tender_total_cost" invisible="1" force_save="1"/>
+                                        <field name="product_uom_category_id" invisible="1"/>
+                                    </group>
+                                    <group>
+                                        <field name="currency_id" invisible="1"/>
+                                        <field name="estimated_total"/>
+                                        <field name="estimated_total_words"/>
+                                        <field name="total_amount"/>
+                                        <field name="total_amount_words"/>
+                                        <field name="user_id" invisible="1"/>
+                                    </group>
+                                </sheet>
+                            </form>
+
+                            <kanban class="o_kanban_mobile">
+                                <field name="company_id" invisible="1"/>
+                                <field name="tender_boq_id"/>
+                                <field name="product_qty"/>
+                                <field name="product_uom_id" options="{'no_open':True,'no_create':True}"
+                                       groups="uom.group_uom"/>
+                                <field name="estimated_rate"/>
+                                <field name="currency_id" invisible="1"/>
+                                <field name="estimated_total"/>
+                                <field name="estimated_total_words"/>
+                                <field name="total_amount"/>
+                                <field name="total_amount_words"/>
+                                <field name="user_id" invisible="1"/>
+                                <field name="cost_updated" invisible="1" force_save="1"/>
+                                <field name="tender_product_qty" invisible="1" force_save="1"/>
+                                <field name="tender_total_cost" invisible="1" force_save="1"/>
+                                <field name="product_uom_category_id" invisible="1"/>
+                                <templates>
+                                    <t t-name="kanban-box">
+                                        <div t-attf-class="oe_kanban_card oe_kanban_global_click pl-0 pr-0">
+                                            <div class="row no-gutters">
+                                                <div class="col-12">
+                                                    <div class="row">
+                                                        <div class="col">
+                                                            <strong t-esc="record.tender_boq_id.value"/>
+                                                        </div>
+                                                        <div class="col-auto">
+                                                            <strong class="float-right text-right"
+                                                                    t-esc="record.total_amount.value"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-12 text-muted">
+                                                            Quantity:
+                                                            <t t-esc="record.product_qty.value"/>
+                                                            <t t-esc="record.product_uom_id.value"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-12 text-muted">
+                                                            Estimated Rate:
+                                                            <t t-esc="record.estimated_rate.value"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-12 text-muted">
+                                                            Estimated Total:
+                                                            <t t-esc="record.estimated_total.value"/>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </t>
+                                </templates>
+
+                            </kanban>
+                        </field>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

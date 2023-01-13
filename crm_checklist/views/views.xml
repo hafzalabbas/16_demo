@@ -1,0 +1,53 @@
+<odoo>
+    <data>
+        <record id="crm_check_list_view_search" model="ir.ui.view">
+            <field name="name">crm.check.list.search</field>
+            <field name="model">crm.check.list</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="crm_check_list_view_form" model="ir.ui.view">
+            <field name="name">crm.check.list.form</field>
+            <field name="model">crm.check.list</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" class="oe_inline"/>
+                            </h1>
+                        </div>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="crm_check_list_view_tree" model="ir.ui.view">
+            <field name="name">crm.check.list.tree</field>
+            <field name="model">crm.check.list</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="crm_check_list_action" model="ir.actions.act_window">
+            <field name="name">Check Lists</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">crm.check.list</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" eval="crm_check_list_view_search"/>
+        </record>
+        <menuitem id="menu_task_checklist"
+                  action="crm_check_list_action"
+                  parent="crm.menu_crm_config_lead"
+                  groups="sales_team.group_sale_manager"
+                  sequence="10"
+        />
+    </data>
+</odoo>

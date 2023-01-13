@@ -1,0 +1,213 @@
+<odoo>
+    <data>
+
+        <record id="tender_boq_form_view" model="ir.ui.view">
+            <field name="name">tender.boq.form.view</field>
+            <field name="model">tender.boq</field>
+            <field name="arch" type="xml">
+                <form string="Tender BOQ" create="0">
+                    <sheet>
+                        <widget name="web_ribbon" title="Archived" bg_color="bg-danger"
+                                attrs="{'invisible': [('active', '=', True)]}"/>
+                        <div class="oe_title">
+                            <h3>
+                                <field name="name" placeholder="Name..."/>
+                            </h3>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="active" invisible="1"/>
+                                <field name="product_id"/>
+                                <label for="product_qty" string="Quantity"/>
+                                <div class="o_row">
+                                    <field name="product_qty"/>
+                                    <field name="product_uom_id" options="{'no_open':True,'no_create':True}"
+                                           groups="uom.group_uom" readonly="1"/>
+                                </div>
+                                <field name="cost_updated"/>
+                                <field name="id" string="reference" readonly="1"/>
+                            </group>
+                            <group>
+                                <field name="total_cost"/>
+                                <field name="currency_id" invisible="1"/>
+                                <field name="user_id" readonly="1"/>
+                                <field name="company_id" groups="base.group_multi_company"
+                                       options="{'no_create': True, 'no_open': True}"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Components" name="components">
+                                <field name="boq_line_ids" widget="one2many"
+                                       context="{'default_product_id': False, 'default_company_id': company_id, 'default_tender_boq_id': id}">
+                                    <tree string="Components" editable="bottom" >
+                                        <field name="company_id" invisible="1"/>
+                                        <field name="product_id" context="{'default_detailed_type': 'product'}"/>
+                                        <field name="product_tmpl_id" invisible="1"/>
+                                        <field name="product_qty"/>
+                                        <field name="product_uom_category_id" invisible="1"/>
+                                        <field name="product_uom_id" options="{'no_open':True,'no_create':True}"
+                                               groups="uom.group_uom"/>
+                                        <field name="product_cost"/>
+                                        <field name="currency_id" invisible="1"/>
+                                        <field name="price_total"/>
+                                        <field name="user_id" invisible="1"/>
+                                    </tree>
+                                    <!-- Form view to cover mobile use -->
+                                    <form>
+                                        <sheet>
+                                            <group>
+                                                <field name="company_id" invisible="1"/>
+                                                <field name="product_id"
+                                                       context="{'default_detailed_type': 'product'}"/>
+                                                <field name="product_tmpl_id" invisible="1"/>
+                                                <field name="product_qty"/>
+                                                <field name="product_uom_category_id" invisible="1"/>
+                                                <field name="product_uom_id" options="{'no_open':True,'no_create':True}"
+                                                       groups="uom.group_uom"/>
+                                            </group>
+                                            <group>
+                                                <field name="product_cost"/>
+                                                <field name="currency_id" invisible="1"/>
+                                                <field name="price_total"/>
+                                                <field name="user_id" invisible="1"/>
+                                            </group>
+                                        </sheet>
+                                    </form>
+
+                                    <kanban class="o_kanban_mobile">
+                                        <field name="company_id" invisible="1"/>
+                                        <field name="product_id" context="{'default_detailed_type': 'product'}"/>
+                                        <field name="product_tmpl_id" invisible="1"/>
+                                        <field name="product_qty"/>
+                                        <field name="product_uom_category_id" invisible="1"/>
+                                        <field name="product_uom_id" options="{'no_open':True,'no_create':True}"
+                                               groups="uom.group_uom"/>
+                                        <field name="product_cost"/>
+                                        <field name="currency_id" invisible="1"/>
+                                        <field name="price_total"/>
+                                        <field name="user_id" invisible="1"/>
+                                        <templates>
+                                            <t t-name="kanban-box">
+                                                <div t-attf-class="oe_kanban_card oe_kanban_global_click pl-0 pr-0">
+                                                    <div class="row no-gutters">
+                                                        <div class="col-12">
+                                                            <div class="row">
+                                                                <div class="col">
+                                                                    <strong t-esc="record.product_id.value"/>
+                                                                </div>
+                                                                <div class="col-auto">
+                                                                    <strong class="float-right text-right"
+                                                                            t-esc="record.price_total.value"/>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-12 text-muted">
+                                                                    Quantity:
+                                                                    <t t-esc="record.product_qty.value"/>
+                                                                    <t t-esc="record.product_uom_id.value"/>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-12 text-muted">
+                                                                    Product cost:
+                                                                    <t t-esc="record.product_cost.value"/>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </t>
+                                        </templates>
+                                    </kanban>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="message_ids" colspan="4" nolabel="1"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="tender_boq_tree_view" model="ir.ui.view">
+            <field name="name">tender.boq.tree.view</field>
+            <field name="model">tender.boq</field>
+            <field name="arch" type="xml">
+                <tree string="Tender BOQ" create="0">
+                    <field name="active" invisible="1"/>
+                    <field name="name"/>
+                    <field name="id" string="Reference"/>
+                    <field name="product_qty"/>
+                    <field name="product_uom_id" groups="uom.group_uom" string="Unit of Measure" readonly="1"/>
+                    <field name="total_cost"/>
+                    <field name="company_id" groups="base.group_multi_company" optional="show"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="tender_boq_search_view" model="ir.ui.view">
+            <field name="name">tender.boq.select</field>
+            <field name="model">tender.boq</field>
+            <field name="arch" type="xml">
+                <search string="Tender BOQ">
+                    <field name="name"/>
+                    <field name="id" string="Reference"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="tender_boq_kanban_view" model="ir.ui.view">
+            <field name="name">tender.boq.kanban</field>
+            <field name="model">tender.boq</field>
+            <field name="arch" type="xml">
+                <kanban class="o_kanban_mobile" sample="1" create="0">
+                    <field name="name"/>
+                    <field name="id" string="Reference"/>
+                    <field name="product_qty"/>
+                    <field name="product_uom_id" readonly="1"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div t-attf-class="oe_kanban_global_click">
+                                <div class="o_kanban_record_top">
+                                    <div class="o_kanban_record_headings mt4">
+                                        <strong class="o_kanban_record_title">
+                                            <span class="mt4">
+                                                <field name="name"/>
+                                            </span>
+                                        </strong>
+                                        <div name="product_total_cost" class="mt-4">
+                                            Cost:
+                                            <field name="total_cost" widget="monetary"
+                                                   options="{'currency_field': 'currency_id', 'field_digits': True}"/>
+                                        </div>
+                                    </div>
+                                    <span class="float-right badge badge-pill">
+                                        <t t-esc="record.product_qty.value"/>
+                                        <small>
+                                            <t t-esc="record.product_uom_id.value"/>
+                                        </small>
+                                    </span>
+
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <record id="tender_boq_form_action" model="ir.actions.act_window">
+            <field name="name">Tender BOQ</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">tender.boq</field>
+            <field name="view_mode">tree,kanban,form</field>
+            <field name="view_id" ref="tender_boq_tree_view"/>
+            <field name="search_view_id" ref="tender_boq_search_view"/>
+        </record>
+
+        <menuitem action="tender_boq_form_action" id="menu_tender_boq_form_action"
+                  parent="crm.crm_menu_sales" sequence="10" name="Tender BOQ"/>
+    </data>
+</odoo>

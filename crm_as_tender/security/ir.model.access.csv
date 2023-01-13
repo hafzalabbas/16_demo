@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_tender_boq,tender.boq,model_tender_boq,,1,1,1,1
+access_tender_boq_line,tender.boq.line,model_tender_boq_line,,1,1,1,1
+access_tender_product_line_manager,tender.product.line.manager,model_tender_product_line,sales_team.group_sale_manager,1,1,1,1
+access_tender_product_line,tender.product.line,model_tender_product_line,sales_team.group_sale_salesman,1,1,1,0
+access_tender_line_excel_import,tender.line.excel.import,model_tender_line_excel_import,,1,1,1,1
