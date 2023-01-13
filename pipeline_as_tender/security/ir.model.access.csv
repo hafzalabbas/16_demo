@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_pipline_as_tender_pipline_as_tender,pipline_as_tender.pipline_as_tender,model_pipline_as_tender_pipline_as_tender,base.group_user,1,1,1,1

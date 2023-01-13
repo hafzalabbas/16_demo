@@ -1,0 +1,66 @@
+<odoo>
+    <data>
+        <record id="crm.crm_lead_action_pipeline" model="ir.actions.act_window">
+            <field name="name">List of Tenders</field>
+        </record>
+
+        <record id="crm.menu_crm_opportunities" model="ir.ui.menu">
+            <field name="name">My Tender</field>
+        </record>
+
+        <record id="crm.crm_opportunity_report_menu" model="ir.ui.menu">
+            <field name="name">List of Tenders</field>
+        </record>
+
+        <record id="crm.menu_crm_config_opportunity" model="ir.ui.menu">
+            <field name="name">Tenders</field>
+        </record>
+
+        <record id="crm.menu_crm_config_lead" model="ir.ui.menu">
+            <field name="name">List of Tenders</field>
+        </record>
+
+        <record id="crm_lead_view_pivot_inherited" model="ir.ui.view">
+            <field name="name">crm.lead.view.pivot.inherited</field>
+            <field name="model">crm.lead</field>
+            <field name="inherit_id" ref="crm.crm_lead_view_pivot"/>
+            <field name="arch" type="xml">
+                <xpath expr="//pivot" position="attributes">
+                    <attribute name="string">Tender Analysis</attribute>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="crm_lead_search_opportunity_inherited" model="ir.ui.view">
+            <field name="name">crm.lead.search.opportunity.inherited</field>
+            <field name="model">crm.lead</field>
+            <field name="inherit_id" ref="crm.view_crm_case_opportunities_filter"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']" position="attributes">
+                    <attribute name="string">Tender</attribute>
+                </xpath>
+                <xpath expr="//filter[@name='assigned_to_me']" position="attributes">
+                    <attribute name="string">My Tender</attribute>
+                </xpath>
+                <xpath expr="//filter[@name='open_opportunities']" position="attributes">
+                    <attribute name="string">Open Tenders</attribute>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="crm_enterprise.crm_opportunity_action_dashboard" model="ir.actions.act_window">
+            <field name="name">Tender Analysis</field>
+        </record>
+
+         <record id="crm_opportunity_view_search_inherited" model="ir.ui.view">
+            <field name="name">crm.opportunity.view.search.inherited</field>
+            <field name="model">crm.lead</field>
+            <field name="inherit_id" ref="crm_enterprise.crm_opportunity_view_search"/>
+            <field name="arch" type="xml">
+                <xpath expr="//filter[@name='my']" position="attributes">
+                    <attribute name="string">My Tender</attribute>
+                </xpath>
+            </field>
+         </record>
+    </data>
+</odoo>
