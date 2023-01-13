@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_loyal_restrict_pdct_creation_loyal_restrict_pdct_creation,loyal_restrict_pdct_creation.loyal_restrict_pdct_creation,model_loyal_restrict_pdct_creation_loyal_restrict_pdct_creation,base.group_user,1,1,1,1
